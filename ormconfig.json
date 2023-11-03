@@ -1,0 +1,21 @@
+{
+    "name": "default",
+    "type": "postgres",
+    "host": "castor.db.elephantsql.com",
+    "port": 5432,
+    "username": "yasdjlfw",
+    "password": "nlepInoS5oTMGjbxZO0sKNm4cpapPkDk",
+    "database": "yasdjlfw",
+    "synchronize": true,
+    "logging": true,
+    "entities": ["src/models/*.ts"],
+    "migrations": ["src/migrations/*.ts"],
+    "subscribers": ["src/subscribers/*.ts"],
+    "cli": {
+      "entitiesDir": "src/models",
+      "migrationsDir": "src/migrations",
+      "subscribersDir": "src/subscribers"
+    },
+    "migrationsRun": true
+  }
+  
