@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import Feedback from "./Feedback";
 
 @Entity()
 class User extends BaseEntity {
@@ -15,6 +16,13 @@ class User extends BaseEntity {
 
   @Column()
   email: string;
+  
+  @Column({ nullable: true }) // To allow for users without images
+  profileImageUrl: string;
+
+  @OneToMany(() => Feedback, (feedback) => feedback.user)
+  feedbacks: Feedback[];
 
   }
 export default User;
+

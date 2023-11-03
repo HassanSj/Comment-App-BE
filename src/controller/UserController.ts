@@ -3,6 +3,12 @@ import { getRepository } from "typeorm";
 import User from "../models/User";
 import RequestResponseMappings from "../utils/RequestResponseMappings";
 const jwt = require("jsonwebtoken");
+import cloudinary from "../config/cloudinary";
+import { Multer } from 'multer';
+
+interface CustomRequest extends Request {
+  file: Express.Multer.File;
+}
 
 function generateToken(user: any) {
   const payload = {
@@ -16,23 +22,26 @@ function generateToken(user: any) {
 export default {
   addUser: async (req: Request, res: Response) => {
     try {
-      const { name, email, password }: any = req.body;
+      const { name, email, password , profileImageUrl}: any = req.body;
       const verificationRepository = getRepository(User);
       const verification = new User();
       verification.name = name;
       verification.email = email;
       verification.password = password;
+      verification.profileImageUrl = profileImageUrl;
+      // Check if a file was uploaded
+      // if (req.file) {
+      //   const imageUrl = await cloudinary.uploadProfileImage(req.file);
+      //   verification.profileImageUrl = imageUrl;
+      // }
+  
       const savedUser = await verificationRepository.save(verification);
       const token = generateToken(savedUser);
-      return res
-        .status(201)
-        .json({ message: "User Record saved", user: savedUser, token });
+  
+      return res.status(201).json({ message: 'User Record saved', user: savedUser, token });
     } catch (error: any) {
-      console.error("Error getting response:", error);
-      return RequestResponseMappings.sendErrorMessage(
-        res,
-        error.message.toString()
-      );
+      console.error('Error getting response:', error);
+      return RequestResponseMappings.sendErrorMessage(res, error.message.toString());
     }
   },
   loginUser: async (req: Request, res: Response) => {
@@ -97,7 +106,7 @@ export default {
         if (err) {
           return res.status(401).json({ message: "Invalid token" });
         }
-        console.log('Decoded Token:', decoded);
+        console.log("Decoded Token:", decoded);
         const userId = decoded.id;
         const userRepository = getRepository(User);
         try {

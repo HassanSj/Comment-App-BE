@@ -8,21 +8,19 @@ import {
 } from "typeorm";
 import User from "./User";
 import Products from "./Products";
-
+import Feedback from "./Feedback";
 @Entity()
-class Feedback extends BaseEntity {
+class Upvote extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  description: string;
-
-  @ManyToOne(() => User, (user) => user.feedbacks)
+  @ManyToOne(() => User)
   user: User;
 
-  @ManyToOne(() => Products, (product) => product.feedbacks) 
-  product: Products;
-  
+
+  @ManyToOne(() => Feedback)
+  feedback: Feedback;
 }
 
-export default Feedback;
+export default Upvote;
+

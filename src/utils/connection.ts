@@ -1,6 +1,8 @@
 import { createConnection } from "typeorm";
 import User from "../models/User";
 import Feedback from "../models/Feedback";
+import Products from "../models/Products";
+import Upvote from "../models/Upvote";
 
 export default createConnection({
   type: "postgres",
@@ -9,7 +11,7 @@ export default createConnection({
   username: "postgres",
   password: "admin",
   database: "commentApp",
-  entities: [Feedback, User],
+  entities: [Feedback, User , Products , Upvote ],
   synchronize: true,
   logging: true,
 })
